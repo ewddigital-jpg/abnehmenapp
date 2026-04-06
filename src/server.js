@@ -121,7 +121,8 @@ function healthShell() {
               <label><span data-i18n="profileHeight">Größe (cm)</span><input id="heightCm" name="heightCm" type="number" min="140" max="220" /></label>
               <label><span data-i18n="profileWeight">Gewicht (kg)</span><input id="weightKg" name="weightKg" type="number" min="45" max="250" step="0.1" /></label>
               <label class="checkbox"><input id="likesFish" name="likesFish" type="checkbox" /><span data-i18n="profileFish">Fisch ist okay</span></label>
-              <input id="age" name="age" type="hidden" value="52" />
+              <label class="checkbox"><input id="intermittentFasting" name="intermittentFasting" type="checkbox" /><span data-i18n="profileIF">Intervallfasten (kein Frühstück)</span></label>
+              <input id="age" name="age" type="hidden" value="46" />
               <input id="sex" name="sex" type="hidden" value="male" />
               <input id="activityLevel" name="activityLevel" type="hidden" value="light" />
               <input id="goal" name="goal" type="hidden" value="gentle" />

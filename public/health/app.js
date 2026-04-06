@@ -10,7 +10,7 @@
 
 const defaultProfile = {
   name: "Papa",
-  age: 52,
+  age: 46,
   sex: "male",
   heightCm: 175,
   weightKg: 102,
@@ -18,7 +18,8 @@ const defaultProfile = {
   goal: "gentle",
   diagnosedPrediabetes: false,
   familyHistory: false,
-  likesFish: true
+  likesFish: true,
+  intermittentFasting: true
 };
 
 const UI_TEXT = {
@@ -87,6 +88,8 @@ const UI_TEXT = {
     profilePrediabetes: "Prädiabetes bestätigt",
     profileFamily: "Diabetes in der Familie",
     profileFish: "Fisch ist okay",
+    profileIF: "Intervallfasten (kein Frühstück)",
+    ifWindowNote: "Essensfenster: ca. 12:00 – 20:00 Uhr",
     infoTitle: "Wichtige Hinweise",
     infoWarning: "Bei starkem Durst, häufigem Wasserlassen, Sehstörungen, Brustschmerz oder unerklärlichem Gewichtsverlust bitte medizinisch abklären lassen.",
     infoScope: "Diese App hilft bei Struktur und Alltag, ersetzt aber keine Diagnose.",
@@ -222,6 +225,8 @@ const UI_TEXT = {
     profilePrediabetes: "Prediabet confirmat",
     profileFamily: "Diabet in familie",
     profileFish: "Pestele este ok",
+    profileIF: "Post intermitent (fara mic dejun)",
+    ifWindowNote: "Fereastra de mancat: aprox. 12:00 – 20:00",
     infoTitle: "Lucruri importante",
     infoWarning: "Daca apar sete intensa, urinare frecventa, tulburari de vedere, durere in piept sau scadere inexplicabila in greutate, merita consult medical.",
     infoScope: "Aplicatia ajuta la organizare si rutina, dar nu inlocuieste un diagnostic.",
@@ -780,6 +785,7 @@ function readProfileForm() {
   const diagnosedPrediabetesField = profileForm.elements.namedItem("diagnosedPrediabetes");
   const familyHistoryField = profileForm.elements.namedItem("familyHistory");
   const likesFishField = profileForm.elements.namedItem("likesFish");
+  const ifField = profileForm.elements.namedItem("intermittentFasting");
   return {
     ...state.profile,
     name: formData.get("name"),
@@ -791,7 +797,8 @@ function readProfileForm() {
     goal: formData.get("goal") ?? state.profile.goal,
     diagnosedPrediabetes: diagnosedPrediabetesField?.type === "checkbox" ? diagnosedPrediabetesField.checked : false,
     familyHistory: familyHistoryField?.type === "checkbox" ? familyHistoryField.checked : false,
-    likesFish: likesFishField?.type === "checkbox" ? likesFishField.checked : state.profile.likesFish
+    likesFish: likesFishField?.type === "checkbox" ? likesFishField.checked : state.profile.likesFish,
+    intermittentFasting: ifField?.type === "checkbox" ? ifField.checked : Boolean(state.profile.intermittentFasting)
   };
 }
 

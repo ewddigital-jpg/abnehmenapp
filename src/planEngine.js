@@ -390,7 +390,8 @@ function pickRecipe(category, dateKey, salt, preferredTiers, profile, excludedId
 export function normalizeProfile(input = {}) {
   return {
     name: String(input.name ?? "Papa").trim() || "Papa",
-    age: clamp(toNumber(input.age, 52), 18, 90),
+    age: clamp(toNumber(input.age, 46), 18, 90),
+    intermittentFasting: Boolean(input.intermittentFasting),
     sex: normalizeSex(input.sex),
     heightCm: clamp(toNumber(input.heightCm, 175), 140, 220),
     weightKg: clamp(toNumber(input.weightKg, 102), 45, 250),
@@ -453,28 +454,29 @@ export function calculateTargets(profileInput = {}) {
 function buildDailyMeals(profile, dateKey) {
   const targets = calculateTargets(profile);
   const tierConfig = getTierConfig(targets.calorieTarget);
-  const breakfast = pickRecipe("breakfast", dateKey, "breakfast", tierConfig.breakfast, targets.profile);
   const lunch = pickRecipe("lunch", dateKey, "lunch", tierConfig.lunch, targets.profile);
   const dinner = pickRecipe("dinner", dateKey, "dinner", tierConfig.dinner, targets.profile);
   const snack1 = pickRecipe("snack", dateKey, "snack-a", tierConfig.snack, targets.profile);
 
-  const snacks = [cloneRecipe(snack1, { mealType: "Snack 1" })];
-  let calories = breakfast.calories + lunch.calories + dinner.calories + snack1.calories;
+  const meals = [
+    cloneRecipe(lunch, { mealType: "Mittagessen" }),
+    cloneRecipe(dinner, { mealType: "Abendessen" })
+  ];
 
-  if (targets.calorieTarget - calories > 150) {
-    const snack2 = pickRecipe("snack", dateKey, "snack-b", ["mid", "low", "high"], targets.profile, snacks.map((snack) => snack.id));
-    snacks.push(cloneRecipe(snack2, { mealType: `Snack ${snacks.length + 1}` }));
-    calories += snack2.calories;
+  if (!profile.intermittentFasting) {
+    const breakfast = pickRecipe("breakfast", dateKey, "breakfast", tierConfig.breakfast, targets.profile);
+    meals.unshift(cloneRecipe(breakfast, { mealType: "Fr\u00fchst\u00fcck" }));
   }
 
-  return {
-    meals: [
-      cloneRecipe(breakfast, { mealType: "FrÃ¼hstÃ¼ck" }),
-      cloneRecipe(lunch, { mealType: "Mittagessen" }),
-      cloneRecipe(dinner, { mealType: "Abendessen" })
-    ],
-    snacks
-  };
+  const snacks = [cloneRecipe(snack1, { mealType: "Snack 1" })];
+  const baseCals = meals.reduce((sum, m) => sum + m.calories, snack1.calories);
+
+  if (targets.calorieTarget - baseCals > 150) {
+    const snack2 = pickRecipe("snack", dateKey, "snack-b", ["mid", "low", "high"], targets.profile, snacks.map((snack) => snack.id));
+    snacks.push(cloneRecipe(snack2, { mealType: `Snack ${snacks.length + 1}` }));
+  }
+
+  return { meals, snacks };
 }
 
 function summarizeRecipes(recipes) {
