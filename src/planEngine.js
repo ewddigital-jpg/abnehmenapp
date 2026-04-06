@@ -272,11 +272,11 @@ const RECIPE_LIBRARY = {
 };
 
 const DAILY_FOCUS = [
-  "Heute keine zuckerhaltigen GetrÃ¤nke.",
+  "Heute keine zuckerhaltigen Getränke.",
   "Nach dem Abendessen 10 bis 15 Minuten spazieren.",
-  "Mittag und Abend: halber Teller GemÃ¼se.",
+  "Mittag und Abend: halber Teller Gemüse.",
   "Snacks bewusst klein halten und Protein zuerst.",
-  "Zum Kaffee nichts SÃ¼ÃŸes nebenbei einbauen.",
+  "Zum Kaffee nichts Süßes nebenbei einbauen.",
   "Heute Wasserflasche sichtbar hinstellen.",
   "Abendessen nicht neben dem Fernseher essen."
 ];
@@ -431,7 +431,7 @@ export function calculateTargets(profileInput = {}) {
   return {
     profile,
     bmi: Number(bmi.toFixed(1)),
-    bmiLabel: bmi >= 35 ? "Adipositas Grad II" : bmi >= 30 ? "Adipositas" : bmi >= 25 ? "Ãœbergewicht" : "unter 25",
+    bmiLabel: bmi >= 35 ? "Adipositas Grad II" : bmi >= 30 ? "Adipositas" : bmi >= 25 ? "Übergewicht" : "unter 25",
     bmr: round(bmr),
     maintenanceCalories,
     calorieTarget,
@@ -442,10 +442,10 @@ export function calculateTargets(profileInput = {}) {
     waterLiters,
     weeklyActivityMinutes: 150,
     weightLossGoalPercent: "5-7%",
-    plateMethod: "Halber Teller GemÃ¼se, Viertel EiweiÃŸ, Viertel stÃ¤rkereiche Beilage.",
+    plateMethod: "Halber Teller Gemüse, Viertel Eiweiß, Viertel stärkereiche Beilage.",
     notes: [
-      "Wasser oder ungesÃ¼ÃŸter Kaffee/Tee statt Softdrinks.",
-      "3 Hauptmahlzeiten plus 1 bis 2 kleine Snacks ist oft alltagstauglicher als stÃ¤ndiges Naschen.",
+      "Wasser oder ungesüßter Kaffee/Tee statt Softdrinks.",
+      "3 Hauptmahlzeiten plus 1 bis 2 kleine Snacks ist oft alltagstauglicher als ständiges Naschen.",
       "Kurzer Spaziergang nach dem Abendessen ist ein starker kleiner Hebel."
     ]
   };
@@ -515,7 +515,7 @@ export function buildMealPlan(profileInput = {}, date = new Date().toISOString()
     habits: [
       "Wasser statt Softdrink.",
       "10 bis 15 Minuten spazieren.",
-      "GemÃ¼seposition bei Mittag und Abend halten."
+      "Gemüseposition bei Mittag und Abend halten."
     ]
   };
 }
@@ -608,7 +608,7 @@ export function buildWeekPlan(profileInput = {}, startDate = new Date().toISOStr
       date: dateKey,
       dateLabel: plan.dateLabel,
       plan,
-      summary: `${plan.totals.calories} kcal | ${plan.totals.protein} g Protein Ã‚Â· ${plan.totals.fiber} g Ballaststoffe`
+      summary: `${plan.totals.calories} kcal | ${plan.totals.protein} g Protein · ${plan.totals.fiber} g Ballaststoffe`
     };
   });
 
@@ -637,16 +637,16 @@ function buildWarnings(targets, profile, progress) {
   const warnings = [];
 
   if (targets.bmi >= 30) {
-    warnings.push("Das Gewicht liegt im Bereich Adipositas. Ein Termin fÃ¼r Blutdruck, A1c, NÃ¼chternglukose und Lipide ist sinnvoll.");
+    warnings.push("Das Gewicht liegt im Bereich Adipositas. Ein Termin für Blutdruck, A1c, Nüchternglukose und Lipide ist sinnvoll.");
   }
   if (profile.diagnosedPrediabetes) {
-    warnings.push("Bei bestÃ¤tigter PrÃ¤diabetes bitte den Plan mit Arzt oder ErnÃ¤hrungsberatung abstimmen.");
+    warnings.push("Bei bestätigter Prädiabetes bitte den Plan mit Arzt oder Ernährungsberatung abstimmen.");
   }
   if (progress.remainingCalories < -400) {
-    warnings.push("Heute liegt der Log deutlich Ã¼ber Ziel. Rest des Tages besser einfach halten: GemÃ¼se, mageres EiweiÃŸ, Wasser.");
+    warnings.push("Heute liegt der Log deutlich über Ziel. Rest des Tages besser einfach halten: Gemüse, mageres Eiweiß, Wasser.");
   }
   if (profile.familyHistory) {
-    warnings.push("Mit Diabetes in der Familie lohnt sich frÃ¼he Kontrolle besonders. Gewicht, Bewegung und Blutwerte jetzt ernst nehmen.");
+    warnings.push("Mit Diabetes in der Familie lohnt sich frühe Kontrolle besonders. Gewicht, Bewegung und Blutwerte jetzt ernst nehmen.");
   }
 
   return warnings;
@@ -671,11 +671,11 @@ export function buildNutritionPlan(payload = {}) {
     recipes,
     warnings,
     guidance: {
-      summary: "Die App ist fÃ¼r Diabetes-PrÃ¤vention gedacht, nicht fÃ¼r Diagnose oder Medikamentensteuerung.",
+      summary: "Die App ist für Diabetes-Prävention gedacht, nicht für Diagnose oder Medikamentensteuerung.",
       sourceNotes: [
-        "Moderater Gewichtsverlust und mindestens 150 Minuten Bewegung pro Woche sind die stÃ¤rksten Lifestyle-Hebel gegen Typ-2-Diabetes.",
-        "Wasser statt Softdrinks und ballaststoffreiche, wenig verarbeitete Mahlzeiten sind fÃ¼r den Alltag ein robuster Standard.",
-        "Bei starkem Durst, hÃ¤ufigem Wasserlassen, starker MÃ¼digkeit oder unerklÃ¤rlichem Gewichtsverlust bitte medizinisch abklÃ¤ren lassen."
+        "Moderater Gewichtsverlust und mindestens 150 Minuten Bewegung pro Woche sind die stärksten Lifestyle-Hebel gegen Typ-2-Diabetes.",
+        "Wasser statt Softdrinks und ballaststoffreiche, wenig verarbeitete Mahlzeiten sind für den Alltag ein robuster Standard.",
+        "Bei starkem Durst, häufigem Wasserlassen, starker Müdigkeit oder unerklärlichem Gewichtsverlust bitte medizinisch abklären lassen."
       ]
     }
   };
