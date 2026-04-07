@@ -1,4 +1,6 @@
-﻿const STORAGE_KEYS = {
+﻿import { buildNutritionPlan } from './planEngine.js';
+
+const STORAGE_KEYS = {
   profile: "metabolic-profile-v2",
   logs: "metabolic-logs-v2",
   habits: "metabolic-habits-v1",
@@ -845,15 +847,7 @@ function scheduleRefresh() {
 }
 
 async function fetchPlan() {
-  const response = await fetch("/api/nutrition-plan", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ profile: state.profile, date: state.selectedDate, entries: currentEntries() })
-  });
-  if (!response.ok) {
-    throw new Error(text("planLoadError"));
-  }
-  return response.json();
+  return buildNutritionPlan({ profile: state.profile, date: state.selectedDate, entries: currentEntries() });
 }
 
 function topCard(label, value, detail, tone = "default") {
